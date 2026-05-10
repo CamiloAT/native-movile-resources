@@ -352,7 +352,6 @@ async function startFaceDetection() {
     const detector = new FaceDetector({ fastMode: true, maxDetectedFaces: 5 });
     const canvas = document.getElementById('face-canvas');
     const ctx = canvas.getContext('2d');
-    const showLandmarks = document.getElementById('face-landmarks');
 
     async function detect() {
       if (!faceStream) return;
@@ -374,27 +373,6 @@ async function startFaceDetection() {
           ctx.fillStyle = '#fff';
           ctx.font = '13px Inter, sans-serif';
           ctx.fillText('Rostro', x + 6, y - 7);
-
-          if (showLandmarks.checked && face.landmarks) {
-            face.landmarks.forEach(lm => {
-              lm.locations.forEach(pt => {
-                let lx = pt.x;
-                let ly = pt.y;
-
-                // Heurística para corregir el bug de Android donde las landmarks son relativas al boundingBox
-                // Si el punto es menor al ancho de la caja y está fuera de las coordenadas absolutas (x,y)
-                if (lx <= width && ly <= height && (lx < x || ly < y)) {
-                  lx += x;
-                  ly += y;
-                }
-
-                ctx.beginPath();
-                ctx.arc(lx, ly, 3, 0, Math.PI * 2);
-                ctx.fillStyle = '#00C9A7';
-                ctx.fill();
-              });
-            });
-          }
         });
 
         if (faces.length > 0) {
