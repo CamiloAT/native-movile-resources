@@ -378,8 +378,18 @@ async function startFaceDetection() {
           if (showLandmarks.checked && face.landmarks) {
             face.landmarks.forEach(lm => {
               lm.locations.forEach(pt => {
+                let lx = pt.x;
+                let ly = pt.y;
+
+                // Heurística para corregir el bug de Android donde las landmarks son relativas al boundingBox
+                // Si el punto es menor al ancho de la caja y está fuera de las coordenadas absolutas (x,y)
+                if (lx <= width && ly <= height && (lx < x || ly < y)) {
+                  lx += x;
+                  ly += y;
+                }
+
                 ctx.beginPath();
-                ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
+                ctx.arc(lx, ly, 3, 0, Math.PI * 2);
                 ctx.fillStyle = '#00C9A7';
                 ctx.fill();
               });
@@ -389,6 +399,8 @@ async function startFaceDetection() {
 
         if (faces.length > 0) {
           setStatus('face-status', `${faces.length} rostro(s) detectado(s).`);
+        } else {
+          setStatus('face-status', 'Cámara activa. Buscando rostros...');
         }
       } catch (e) { /* ignore single frame errors */ }
 
