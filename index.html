@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explorador de capacidades nativas del navegador – FileSystem, Authentication, Face Detection, Barcode Detection, Screen Capture, Audio Recording, Orientation, Motion, Multitouch y View Transitions." />
+  <title>Native Browser APIs Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════ PARTICLES BACKGROUND ═══════════════════ -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ═══════════════════ MAIN MENU VIEW ═══════════════════ -->
+  <div id="app" class="view active">
+    <header class="hero">
+      <div class="hero-badge">
+        <span class="material-icons-round">devices</span>
+        <span>Native Browser APIs</span>
+      </div>
+      <h1>Explorador de <span class="gradient-text">Capacidades Nativas</span></h1>
+      <p class="hero-subtitle">Descubre el poder de las APIs modernas del navegador. Selecciona una demo para comenzar.</p>
+    </header>
+
+    <section class="cards-grid" id="cards-grid">
+
+      <!-- Card 1 – File System -->
+      <button class="card" data-demo="filesystem" id="btn-filesystem">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #6C63FF;">
+          <span class="material-icons-round">folder_open</span>
+        </div>
+        <h2>File System</h2>
+        <p>Accede al sistema de archivos del dispositivo. Abre, edita y guarda archivos directamente desde el navegador.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 2 – Authentication -->
+      <button class="card" data-demo="authentication" id="btn-authentication">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #00C9A7;">
+          <span class="material-icons-round">fingerprint</span>
+        </div>
+        <h2>Authentication</h2>
+        <p>Autenticación sin contraseña con WebAuthn. Usa huella dactilar, FaceID o llaves USB de seguridad.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 3 – Face Detection -->
+      <button class="card" data-demo="facedetection" id="btn-facedetection">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #FF6B6B;">
+          <span class="material-icons-round">face</span>
+        </div>
+        <h2>Face Detection</h2>
+        <p>Detecta rostros en tiempo real usando la cámara de tu dispositivo con la Shape Detection API.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 4 – Barcode Detection -->
+      <button class="card" data-demo="barcode" id="btn-barcode">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #FFC75F;">
+          <span class="material-icons-round">qr_code_scanner</span>
+        </div>
+        <h2>Barcode Detection</h2>
+        <p>Escanea códigos de barras y códigos QR usando la cámara del dispositivo.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 5 – Screen Capture -->
+      <button class="card" data-demo="screencapture" id="btn-screencapture">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #845EC2;">
+          <span class="material-icons-round">screen_share</span>
+        </div>
+        <h2>Screen Capture</h2>
+        <p>Captura tu pantalla y compártela. Graba la pantalla, ventanas o pestañas del navegador.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 6 – Audio Recording -->
+      <button class="card" data-demo="audiorecording" id="btn-audiorecording">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #FF4081;">
+          <span class="material-icons-round">mic</span>
+        </div>
+        <h2>Audio Recording</h2>
+        <p>Graba audio desde el micrófono y visualiza la forma de onda en tiempo real con Web Audio API.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 7 – Orientation -->
+      <button class="card" data-demo="orientation" id="btn-orientation">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #00BCD4;">
+          <span class="material-icons-round">screen_rotation</span>
+        </div>
+        <h2>Orientation</h2>
+        <p>Obtén información sobre la orientación física del dispositivo con DeviceOrientationEvent.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 8 – Motion -->
+      <button class="card" data-demo="motion" id="btn-motion">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #FF9800;">
+          <span class="material-icons-round">3d_rotation</span>
+        </div>
+        <h2>Motion</h2>
+        <p>Detecta la aceleración y velocidad de rotación del dispositivo con DeviceMotionEvent.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 9 – Multitouch -->
+      <button class="card" data-demo="multitouch" id="btn-multitouch">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #E91E63;">
+          <span class="material-icons-round">touch_app</span>
+        </div>
+        <h2>Multi Touch</h2>
+        <p>Captura eventos táctiles complejos y dibuja con múltiples puntos de contacto simultáneos.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+      <!-- Card 10 – View Transitions -->
+      <button class="card" data-demo="viewtransitions" id="btn-viewtransitions">
+        <div class="card-glow"></div>
+        <div class="card-icon" style="--accent: #7C4DFF;">
+          <span class="material-icons-round">auto_awesome_motion</span>
+        </div>
+        <h2>View Transitions</h2>
+        <p>Transiciones fluidas entre vistas tipo app nativa con la View Transitions API.</p>
+        <span class="card-arrow material-icons-round">arrow_forward</span>
+      </button>
+
+    </section>
+
+    <footer class="main-footer">
+      <p>Basado en <a href="https://whatpwacando.today/" target="_blank" rel="noopener">What PWA Can Do Today</a> &bull; Electiva III &bull; 2026</p>
+    </footer>
+  </div>
+
+  <!-- ═══════════════════ DEMO VIEWS ═══════════════════ -->
+
+  <!-- ────── FILE SYSTEM ────── -->
+  <div id="view-filesystem" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-filesystem">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#6C63FF">folder_open</span> File System Access API</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>La <strong>File System Access API</strong> permite a las aplicaciones web acceder al sistema de archivos nativo del dispositivo del usuario tras conceder el permiso. Puedes abrir, leer, editar y guardar archivos de texto e imágenes.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="fs-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="fs-open-file" style="--btn-accent:#6C63FF;">
+            <span class="material-icons-round">description</span> Abrir archivo
+          </button>
+          <button class="action-btn" id="fs-save-file" style="--btn-accent:#6C63FF;" disabled>
+            <span class="material-icons-round">save</span> Guardar archivo
+          </button>
+          <button class="action-btn" id="fs-open-dir" style="--btn-accent:#6C63FF;">
+            <span class="material-icons-round">folder</span> Abrir directorio
+          </button>
+        </div>
+        <div id="fs-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div id="fs-editor-wrap" class="hidden">
+          <label class="field-label" for="fs-filename">Archivo: <span id="fs-filename"></span></label>
+          <textarea id="fs-editor" rows="14" spellcheck="false"></textarea>
+        </div>
+        <div id="fs-image-preview" class="hidden">
+          <img id="fs-image" alt="Imagen seleccionada" />
+        </div>
+        <div id="fs-dir-tree" class="hidden">
+          <h3>Contenido del directorio</h3>
+          <ul id="fs-tree-list"></ul>
+        </div>
+      </div>
+      <div class="api-support" id="fs-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── AUTHENTICATION ────── -->
+  <div id="view-authentication" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-authentication">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#00C9A7">fingerprint</span> Web Authentication</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>La <strong>Web Authentication API (WebAuthn)</strong> permite autenticación sin contraseña a través del lector de huella dactilar, FaceID o una llave USB de seguridad externa. Registra una credencial y luego autentícate.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="auth-panel">
+        <div class="auth-user-section">
+          <div class="auth-avatar">
+            <span class="material-icons-round">person</span>
+          </div>
+          <input type="text" id="auth-username" placeholder="Nombre de usuario" class="auth-input" />
+        </div>
+        <div class="demo-actions">
+          <button class="action-btn" id="auth-register" style="--btn-accent:#00C9A7;">
+            <span class="material-icons-round">app_registration</span> Registrar credencial
+          </button>
+          <button class="action-btn" id="auth-login" style="--btn-accent:#00C9A7;" disabled>
+            <span class="material-icons-round">login</span> Autenticar
+          </button>
+        </div>
+        <div id="auth-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div id="auth-result" class="hidden result-box">
+          <h3>Credencial</h3>
+          <pre id="auth-credential-info"></pre>
+        </div>
+      </div>
+      <div class="api-support" id="auth-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── FACE DETECTION ────── -->
+  <div id="view-facedetection" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-facedetection">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#FF6B6B">face</span> Face Detection</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>La <strong>Shape Detection API</strong> detecta rostros en imágenes y video. En algunos navegadores también detecta ojos, nariz y boca. Usa la cámara para detectar tu rostro en tiempo real.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="face-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="face-start" style="--btn-accent:#FF6B6B;">
+            <span class="material-icons-round">videocam</span> Iniciar detección
+          </button>
+          <button class="action-btn" id="face-stop" style="--btn-accent:#FF6B6B;" disabled>
+            <span class="material-icons-round">videocam_off</span> Detener
+          </button>
+          <label class="toggle-label">
+            <input type="checkbox" id="face-landmarks" />
+            <span>Mostrar landmarks</span>
+          </label>
+        </div>
+        <div id="face-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="video-container" id="face-video-container">
+          <video id="face-video" autoplay playsinline></video>
+          <canvas id="face-canvas"></canvas>
+        </div>
+      </div>
+      <div class="api-support" id="face-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── BARCODE DETECTION ────── -->
+  <div id="view-barcode" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-barcode">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#FFC75F">qr_code_scanner</span> Barcode Detection</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>La <strong>Barcode Detection API</strong> detecta códigos de barras y códigos QR en imágenes. Escanea un código usando la cámara del dispositivo. Si se detecta una URL, se te preguntará si deseas navegar a ella.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="barcode-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="barcode-start" style="--btn-accent:#FFC75F;">
+            <span class="material-icons-round">qr_code_scanner</span> Iniciar escaneo
+          </button>
+          <button class="action-btn" id="barcode-stop" style="--btn-accent:#FFC75F;" disabled>
+            <span class="material-icons-round">stop</span> Detener
+          </button>
+        </div>
+        <div id="barcode-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="video-container" id="barcode-video-container">
+          <video id="barcode-video" autoplay playsinline></video>
+          <canvas id="barcode-canvas"></canvas>
+        </div>
+        <div id="barcode-result" class="hidden result-box">
+          <h3>Código detectado</h3>
+          <p id="barcode-value"></p>
+          <p id="barcode-format" class="text-muted"></p>
+        </div>
+      </div>
+      <div class="api-support" id="barcode-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── SCREEN CAPTURE ────── -->
+  <div id="view-screencapture" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-screencapture">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#845EC2">screen_share</span> Screen Capture</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>La <strong>Screen Capture API</strong> permite capturar la pantalla, una ventana o una pestaña del navegador. Puedes grabar la captura y descargar el video resultante.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="capture-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="capture-start" style="--btn-accent:#845EC2;">
+            <span class="material-icons-round">screen_share</span> Compartir pantalla
+          </button>
+          <button class="action-btn" id="capture-stop" style="--btn-accent:#845EC2;" disabled>
+            <span class="material-icons-round">stop_screen_share</span> Detener
+          </button>
+          <button class="action-btn" id="capture-screenshot" style="--btn-accent:#845EC2;" disabled>
+            <span class="material-icons-round">photo_camera</span> Captura de pantalla
+          </button>
+        </div>
+        <div id="capture-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="video-container" id="capture-video-container">
+          <video id="capture-video" autoplay playsinline></video>
+        </div>
+        <div id="capture-screenshot-preview" class="hidden">
+          <h3>Captura de pantalla</h3>
+          <img id="capture-image" alt="Captura de pantalla" />
+          <a id="capture-download" class="action-btn" style="--btn-accent:#845EC2;" download="screenshot.png">
+            <span class="material-icons-round">download</span> Descargar
+          </a>
+        </div>
+      </div>
+      <div class="api-support" id="capture-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── AUDIO RECORDING ────── -->
+  <div id="view-audiorecording" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-audiorecording">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#FF4081">mic</span> Audio Recording</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>Graba audio usando <strong>MediaRecorder</strong> y visualiza la forma de onda en tiempo real con <strong>Web Audio API</strong>. Puedes reproducir y descargar la grabación.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="audio-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="audio-start" style="--btn-accent:#FF4081;">
+            <span class="material-icons-round">fiber_manual_record</span> Grabar
+          </button>
+          <button class="action-btn" id="audio-stop" style="--btn-accent:#FF4081;" disabled>
+            <span class="material-icons-round">stop</span> Detener
+          </button>
+        </div>
+        <div id="audio-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="audio-visualizer-wrap">
+          <canvas id="audio-visualizer" width="800" height="200"></canvas>
+          <div id="audio-timer" class="audio-timer hidden">00:00</div>
+        </div>
+        <div id="audio-playback" class="hidden" style="margin-top:1.2rem">
+          <h3 style="font-size:.9rem;margin-bottom:.6rem">Reproducir grabación</h3>
+          <audio id="audio-player" controls style="width:100%"></audio>
+          <a id="audio-download" class="action-btn" style="--btn-accent:#FF4081;margin-top:.8rem" download="grabacion.webm">
+            <span class="material-icons-round">download</span> Descargar
+          </a>
+        </div>
+      </div>
+      <div class="api-support" id="audio-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── ORIENTATION ────── -->
+  <div id="view-orientation" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-orientation">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#00BCD4">screen_rotation</span> Device Orientation</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>El <strong>DeviceOrientationEvent</strong> proporciona información sobre la orientación física del dispositivo. Los valores Alpha, Beta y Gamma representan la rotación en los ejes Z, X e Y respectivamente.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="orient-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="orient-start" style="--btn-accent:#00BCD4;">
+            <span class="material-icons-round">play_arrow</span> Iniciar
+          </button>
+          <button class="action-btn" id="orient-stop" style="--btn-accent:#00BCD4;" disabled>
+            <span class="material-icons-round">stop</span> Detener
+          </button>
+        </div>
+        <div id="orient-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="sensor-display">
+          <div class="sensor-card">
+            <div class="sensor-label">Alpha (Z)</div>
+            <div class="sensor-value" id="orient-alpha">--</div>
+            <div class="sensor-bar"><div class="sensor-fill" id="orient-alpha-bar" style="--bar-color:#00BCD4"></div></div>
+          </div>
+          <div class="sensor-card">
+            <div class="sensor-label">Beta (X)</div>
+            <div class="sensor-value" id="orient-beta">--</div>
+            <div class="sensor-bar"><div class="sensor-fill" id="orient-beta-bar" style="--bar-color:#FF4081"></div></div>
+          </div>
+          <div class="sensor-card">
+            <div class="sensor-label">Gamma (Y)</div>
+            <div class="sensor-value" id="orient-gamma">--</div>
+            <div class="sensor-bar"><div class="sensor-fill" id="orient-gamma-bar" style="--bar-color:#FFC75F"></div></div>
+          </div>
+        </div>
+        <div class="orient-3d-wrap">
+          <div class="orient-cube" id="orient-cube">
+            <div class="cube-face front">F</div>
+            <div class="cube-face back">B</div>
+            <div class="cube-face right">R</div>
+            <div class="cube-face left">L</div>
+            <div class="cube-face top">T</div>
+            <div class="cube-face bottom">Bo</div>
+          </div>
+        </div>
+      </div>
+      <div class="api-support" id="orient-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── MOTION ────── -->
+  <div id="view-motion" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-motion">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#FF9800">3d_rotation</span> Device Motion</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>El <strong>DeviceMotionEvent</strong> proporciona información sobre la aceleración y velocidad de rotación del dispositivo. Mueve tu dispositivo para ver los cambios en tiempo real.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="motion-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="motion-start" style="--btn-accent:#FF9800;">
+            <span class="material-icons-round">play_arrow</span> Iniciar
+          </button>
+          <button class="action-btn" id="motion-stop" style="--btn-accent:#FF9800;" disabled>
+            <span class="material-icons-round">stop</span> Detener
+          </button>
+        </div>
+        <div id="motion-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="sensor-display">
+          <div class="sensor-card">
+            <div class="sensor-label">Aceleración X</div>
+            <div class="sensor-value" id="motion-ax">--</div>
+            <div class="sensor-bar"><div class="sensor-fill" id="motion-ax-bar" style="--bar-color:#FF9800"></div></div>
+          </div>
+          <div class="sensor-card">
+            <div class="sensor-label">Aceleración Y</div>
+            <div class="sensor-value" id="motion-ay">--</div>
+            <div class="sensor-bar"><div class="sensor-fill" id="motion-ay-bar" style="--bar-color:#00BCD4"></div></div>
+          </div>
+          <div class="sensor-card">
+            <div class="sensor-label">Aceleración Z</div>
+            <div class="sensor-value" id="motion-az">--</div>
+            <div class="sensor-bar"><div class="sensor-fill" id="motion-az-bar" style="--bar-color:#E91E63"></div></div>
+          </div>
+        </div>
+        <div class="sensor-display" style="margin-top:1rem">
+          <div class="sensor-card">
+            <div class="sensor-label">Rotación α</div>
+            <div class="sensor-value" id="motion-ra">--</div>
+          </div>
+          <div class="sensor-card">
+            <div class="sensor-label">Rotación β</div>
+            <div class="sensor-value" id="motion-rb">--</div>
+          </div>
+          <div class="sensor-card">
+            <div class="sensor-label">Rotación γ</div>
+            <div class="sensor-value" id="motion-rg">--</div>
+          </div>
+        </div>
+        <div class="motion-ball-wrap">
+          <div class="motion-ball" id="motion-ball"></div>
+        </div>
+      </div>
+      <div class="api-support" id="motion-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── MULTITOUCH ────── -->
+  <div id="view-multitouch" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-multitouch">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#E91E63">touch_app</span> Multi Touch</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>Los <strong>Touch Events</strong> permiten capturar comportamiento táctil complejo. Toca la zona de dibujo con uno o más dedos para dibujar trazos de colores diferentes por cada punto de contacto.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="touch-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="touch-clear" style="--btn-accent:#E91E63;">
+            <span class="material-icons-round">delete</span> Limpiar lienzo
+          </button>
+        </div>
+        <div id="touch-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="touch-info">
+          <span>Toques activos: <strong id="touch-count">0</strong></span>
+        </div>
+        <canvas id="touch-canvas" class="touch-canvas"></canvas>
+      </div>
+      <div class="api-support" id="touch-support"></div>
+    </div>
+  </div>
+
+  <!-- ────── VIEW TRANSITIONS ────── -->
+  <div id="view-viewtransitions" class="view demo-view">
+    <nav class="demo-nav">
+      <button class="back-btn" data-back id="back-viewtransitions">
+        <span class="material-icons-round">arrow_back</span>
+        <span>Menú</span>
+      </button>
+      <h2><span class="material-icons-round" style="color:#7C4DFF">auto_awesome_motion</span> View Transitions</h2>
+    </nav>
+    <div class="demo-container">
+      <div class="demo-info">
+        <p>La <strong>View Transitions API</strong> permite transiciones fluidas tipo app nativa entre estados de la interfaz. Haz clic en las tarjetas o botones para ver las transiciones animadas.</p>
+      </div>
+      <div class="demo-panel glass-panel" id="vt-panel">
+        <div class="demo-actions">
+          <button class="action-btn" id="vt-toggle-theme" style="--btn-accent:#7C4DFF;">
+            <span class="material-icons-round">palette</span> Cambiar tema
+          </button>
+          <button class="action-btn" id="vt-toggle-layout" style="--btn-accent:#7C4DFF;">
+            <span class="material-icons-round">view_module</span> Cambiar layout
+          </button>
+          <button class="action-btn" id="vt-shuffle" style="--btn-accent:#7C4DFF;">
+            <span class="material-icons-round">shuffle</span> Reordenar
+          </button>
+        </div>
+        <div id="vt-status" class="status-badge hidden">
+          <span class="material-icons-round">check_circle</span>
+          <span class="status-text"></span>
+        </div>
+        <div class="vt-showcase" id="vt-showcase">
+          <div class="vt-card" id="vt-item-1" style="--vt-color:#6C63FF">
+            <span class="material-icons-round">star</span>
+            <span>Elemento 1</span>
+          </div>
+          <div class="vt-card" id="vt-item-2" style="--vt-color:#00C9A7">
+            <span class="material-icons-round">favorite</span>
+            <span>Elemento 2</span>
+          </div>
+          <div class="vt-card" id="vt-item-3" style="--vt-color:#FF6B6B">
+            <span class="material-icons-round">bolt</span>
+            <span>Elemento 3</span>
+          </div>
+          <div class="vt-card" id="vt-item-4" style="--vt-color:#FFC75F">
+            <span class="material-icons-round">diamond</span>
+            <span>Elemento 4</span>
+          </div>
+          <div class="vt-card" id="vt-item-5" style="--vt-color:#845EC2">
+            <span class="material-icons-round">rocket_launch</span>
+            <span>Elemento 5</span>
+          </div>
+          <div class="vt-card" id="vt-item-6" style="--vt-color:#FF4081">
+            <span class="material-icons-round">auto_awesome</span>
+            <span>Elemento 6</span>
+          </div>
+        </div>
+      </div>
+      <div class="api-support" id="vt-support"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
