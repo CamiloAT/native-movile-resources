@@ -552,7 +552,14 @@ async function startScreenCapture() {
       setStatus('capture-status', 'Captura finalizada por el usuario.');
     });
   } catch (e) {
-    if (e.name !== 'AbortError') setStatus('capture-status', `Error: ${e.message}`, true);
+    if (e.name !== 'AbortError') {
+      const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+      if (isMobile && (e.name === 'NotSupportedError' || e.message.toLowerCase().includes('not supported'))) {
+        setStatus('capture-status', 'Por seguridad, Android/iOS no permiten grabar la pantalla desde el navegador. Pruébalo en un PC.', true);
+      } else {
+        setStatus('capture-status', `Error: ${e.message}`, true);
+      }
+    }
   }
 }
 
